@@ -4,7 +4,7 @@ export interface IUser {
     email: string;
     password: string;
     phone : number;
-    avatar : string;
+    // avatar : string;
     dateOfBirth : string,
     confirmPassword: string;
 }
@@ -12,6 +12,11 @@ export interface IUser {
 export interface IUserLogin {
     email: string;
     password: string;
+}
+
+export interface IAvatar {
+    public_id : string;
+    url : string;
 }
 
 export interface IVerifyToken {

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { sign } from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { IUser, IUserLogin } from "../interface/user.interface";
+import {  IUser, IUserLogin } from "../interface/user.interface";
 import UserModel from "../model/users.schema";
 import { v2 as cloudinary } from "cloudinary";
 
@@ -16,11 +16,11 @@ export const register = async (req: Request, res: Response) => {
             return res.status(422).send({ error: "password and confirm password mismatched !" });
         }
 
-        // const userExist = await UserModel.findOne({ email: email });
-        // console.log('userExist: ', userExist);
-        // if (userExist) return res.status(409).send({ msg: "User already exist!" });
+        const userExist = await UserModel.findOne({ email: email });
+        console.log('userExist: ', userExist);
+        if (userExist) return res.status(409).send({ msg: "User already exist!" });
         
-        // const myCloud = await cloudinary.uploader.upload(avatar,{
+        // const myCloud = await cloudinary.uploader.upload( req.body.avatar,{
         //     folder: "avatars",
         //     width: 250,
         //     crop: "scale",
@@ -31,16 +31,15 @@ export const register = async (req: Request, res: Response) => {
         const createUser = await UserModel.create({
             email,
             password: hashedPassword,
-            // phone,
-            // dateOfBirth,
+            phone,
+            dateOfBirth,
             // avatar : {
             //     public_id: myCloud.public_id as string,
             //     url: myCloud.secure_url as string
             // },
-            // name
+            name
         });
-        // await createUser.save(); 
-            console.log('createUser: ', createUser);
+        await createUser.save(); 
 
         const token = sign(
             { id: createUser._id , email: createUser.email },
@@ -49,7 +48,7 @@ export const register = async (req: Request, res: Response) => {
             );
             console.log('token: ', token);
             
-        return res.status(201).json('{ token, createUser }');
+        return res.status(201).json({ token, createUser });
     } catch (err) {
         console.log({ err: err });
         res.status(501).send({ err: "Internal Server Error" });
@@ -88,4 +87,12 @@ export const login = async (req: Request, res: Response) => {
 export const get = async (req: Request, res: Response) => {
     const data = await UserModel.find({});
     return res.status(200).send(data);
+}
+
+export const userLogout = async (req: Request, res: Response) => {
+
+}
+
+export const userChangePassword = async (req: Request, res: Response) => {
+
 }

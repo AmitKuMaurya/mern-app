@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import { IAvatar } from "../interface/user.interface";
 
 // name,email, password, confirmPassword, phone, dateOfBirth,avatar
 
@@ -18,7 +19,7 @@ const UserSchema = new Schema({
     password: { type: String, require: true, select: false },
     phone : { type : Number, require : true},
     dateOfBirth: { type: String, require: true },
-    // avatar : {type : String , require : true}
+    // avatar : {type :  String, require : true}
 }, {
     timestamps: true
 });
