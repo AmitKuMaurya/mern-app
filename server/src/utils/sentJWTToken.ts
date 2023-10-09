@@ -1,8 +1,8 @@
 import { Response } from 'express';
 //import { User } from './user'; // Import your User model or use the correct import path
 import { IUser } from '../interface/user.interface';
-import UserModel from '../model/users.schema';
-const sendToken = (user : any, statusCode: number, res: Response): void => {
+
+const sendJWTToken = (user : any, statusCode: number, res: Response): void => {
     const token: string = user.CreateJWTToken();
     console.log(token);
 
@@ -22,4 +22,4 @@ const sendToken = (user : any, statusCode: number, res: Response): void => {
     });
 };
 
-export default sendToken;
+export default sendJWTToken;

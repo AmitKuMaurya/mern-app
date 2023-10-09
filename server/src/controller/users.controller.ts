@@ -4,7 +4,7 @@ import { IUser, IUserLogin } from "../interface/user.interface";
 import UserModel from "../model/users.schema";
 import { v2 as cloudinary } from "cloudinary";
 import { IUserChangePswd } from "../interface/product.interface";
-import sendToken from "../utils/sentJWTToken";
+import sendJWTToken from "../utils/sentJWTToken";
 
 export const register = async (req: Request, res: Response) => {
   try {
@@ -52,7 +52,7 @@ export const register = async (req: Request, res: Response) => {
     });
     await createUser.save();
 
-    sendToken(createUser, 201, res);
+    sendJWTToken(createUser, 201, res);
 
     // const token = sign(
     //     { id: createUser._id , email: createUser.email },
@@ -82,7 +82,7 @@ export const login = async (req: Request, res: Response) => {
       return res.status(404).send({ msg: "CREDENTIALS ARE NOT VALID " });
 
     if (compare) {
-      sendToken(user, 201, res);
+      sendJWTToken(user, 201, res);
     }
   } catch (error) {
     console.log({ error: error });
@@ -109,39 +109,33 @@ export const userLogout = async (req: Request, res: Response) => {
 };
 
 export const userChangePassword = async (req: Request, res: Response) => {
-    const { user } = req;
-  const { password, newPassword, confirmNewPassword }: IUserChangePswd = req.body;
-  console.log('req.body: ', req.body);
-  console.log('userId: ', user);
+  const {user} = req;
+  const { password, newPassword, confirmNewPassword }: IUserChangePswd =
+    req.body;
 
-  const userL = await UserModel.findOne({ _id: user }).select(
-      "+password"
-      );
-      console.log('user: ', user);
 
-  if(!userL) return "User Doesn't exist !"
+  const userL = await UserModel.findOne({ _id: user }).select("+password");
+
+  if (!userL) return res.status(404).send({msg : "User Doesn't exist !"});
 
   if (newPassword !== confirmNewPassword) {
-    console.log("password !== confirmPassword: ", newPassword !== confirmNewPassword);
     return res
       .status(422)
       .send({ error: "password and confirm password mismatched !" });
   }
 
   const comparePswd = await bcrypt.compare(password, userL?.password);
-  console.log('comparePswd: ', comparePswd);
 
   if (!comparePswd) {
-    return res
-      .status(401)
-      .send({ error: "Your credentials are wrong !" });
+    return res.status(401).send({ error: "Your credentials are wrong !" });
   }
 
-  userL.password = newPassword;
-   await userL.save();
-   console.log('user.password: ', userL.password);
-   console.log('newPassword: ', newPassword);
-
-//   sendToken(user, 201, res);
-    res.status(201).send("Hello !");
+  const hashedNewPswd = await bcrypt.hash(newPassword, 10);
+  userL.password = hashedNewPswd;
+  await userL.save();
+  
+  res.status(201).send({
+    isSuccess: true,
+    msg: "Creds updated successfully !",
+  });
 };
