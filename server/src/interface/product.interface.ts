@@ -7,4 +7,10 @@ export interface IProduct {
     // userId :  string;
     productThumbnail: string;
   }
+
+export interface IUserChangePswd {
+    password : string;
+    newPassword : string;
+    confirmNewPassword : string;
+}
   

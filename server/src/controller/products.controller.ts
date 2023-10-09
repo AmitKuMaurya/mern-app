@@ -37,6 +37,7 @@ export const createProduct = async (req: Request, res: Response) => {
 export const listProducts = async (req: Request, res: Response) => {
   try {
     const { user } = req;
+    console.log('user: ', user);
 
     const list = await ProductModel.find({ userId: user });
     res.status(200).send(list);
