@@ -114,33 +114,33 @@ export const userChangePassword = async (req: Request, res: Response) => {
   console.log('req.body: ', req.body);
   console.log('userId: ', user);
 
-//   const userL = await UserModel.findOne({ _id: user }).select(
-//       "+password"
-//       );
-//       console.log('user: ', user);
+  const userL = await UserModel.findOne({ _id: user }).select(
+      "+password"
+      );
+      console.log('user: ', user);
 
-//   if(!userL) return "User Doesn't exist !"
+  if(!userL) return "User Doesn't exist !"
 
-//   if (newPassword !== confirmNewPassword) {
-//     console.log("password !== confirmPassword: ", newPassword !== confirmNewPassword);
-//     return res
-//       .status(422)
-//       .send({ error: "password and confirm password mismatched !" });
-//   }
+  if (newPassword !== confirmNewPassword) {
+    console.log("password !== confirmPassword: ", newPassword !== confirmNewPassword);
+    return res
+      .status(422)
+      .send({ error: "password and confirm password mismatched !" });
+  }
 
-//   const comparePswd = await bcrypt.compare(password, userL?.password);
-//   console.log('comparePswd: ', comparePswd);
+  const comparePswd = await bcrypt.compare(password, userL?.password);
+  console.log('comparePswd: ', comparePswd);
 
-//   if (!comparePswd) {
-//     return res
-//       .status(401)
-//       .send({ error: "Your credentials are wrong !" });
-//   }
+  if (!comparePswd) {
+    return res
+      .status(401)
+      .send({ error: "Your credentials are wrong !" });
+  }
 
-//   userL.password = newPassword;
-//    await userL.save();
-//    console.log('user.password: ', userL.password);
-//    console.log('newPassword: ', newPassword);
+  userL.password = newPassword;
+   await userL.save();
+   console.log('user.password: ', userL.password);
+   console.log('newPassword: ', newPassword);
 
 //   sendToken(user, 201, res);
     res.status(201).send("Hello !");
