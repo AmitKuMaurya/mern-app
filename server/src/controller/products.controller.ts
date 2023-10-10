@@ -75,7 +75,7 @@ export const updateProduct = async (
 ) => {
   try {
     const { id } = req.params;
-    const { productName, price, productThumbnail, quantity }: IProduct =
+    const { productName, price, productThumbnail, quantity, discount }: IProduct =
       req.body;
     const { user } = req;
     const doesExist = await ProductModel.findOne({ _id: id });
@@ -86,7 +86,7 @@ export const updateProduct = async (
       {
         $and: [{ _id: id }, { userId: user }],
       },
-      { $set: { productName, price, productThumbnail, quantity } },
+      { $set: {  productName, price, productThumbnail, quantity, discount } },
       { new: true }
     );
 
