@@ -1,6 +1,4 @@
 import { Response } from 'express';
-//import { User } from './user'; // Import your User model or use the correct import path
-import { IUser } from '../interface/user.interface';
 
 const sendJWTToken = (user : any, statusCode: number, res: Response): void => {
     const token: string = user.CreateJWTToken();

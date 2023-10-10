@@ -18,17 +18,12 @@ export const register = async (req: Request, res: Response) => {
     }: IUser = req.body;
 
     if (password !== confirmPassword) {
-      console.log(
-        "password !== confirmPassword: ",
-        password !== confirmPassword
-      );
       return res
         .status(422)
         .send({ error: "password and confirm password mismatched !" });
     }
 
     const userExist = await UserModel.findOne({ email: email });
-    console.log("userExist: ", userExist);
     if (userExist) return res.status(409).send({ msg: "User already exist!" });
 
     // const myCloud = await cloudinary.uploader.upload( req.body.avatar,{
@@ -54,14 +49,6 @@ export const register = async (req: Request, res: Response) => {
 
     sendJWTToken(createUser, 201, res);
 
-    // const token = sign(
-    //     { id: createUser._id , email: createUser.email },
-    //     "JWTSECRET",
-    //     { expiresIn: "2 days" }
-    //     );
-    //     console.log('token: ', token);
-
-    // return res.status(201).json({ token, createUser });
   } catch (err) {
     console.log({ err: err });
     res.status(501).send({ err: "Internal Server Error" });
@@ -100,7 +87,6 @@ export const userLogout = async (req: Request, res: Response) => {
     expires: new Date(Date.now()),
     httpOnly: true,
   });
-  console.log("expireJWTToken: ", expireJWTToken);
 
   res.status(200).json({
     success: true,
