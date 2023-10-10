@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import SearchBar from "../search-bar/SearchBar";
 const Navbar = () => {
   const token = JSON.parse(localStorage.getItem("token") || null);
-  console.log("token: ", token);
   useEffect(() => {}, []);
   const handleLogout = () => {
     localStorage.clear();

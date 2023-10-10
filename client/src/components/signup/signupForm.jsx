@@ -35,7 +35,6 @@ const SignupForm = () => {
   useEffect(()=>{
     const token = JSON.parse(localStorage.getItem("token") || null);
     if(token) return navigate('/');
-    console.log(token);
   },[navigate]);
 
   const handleSignup = () => {
