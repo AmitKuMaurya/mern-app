@@ -5,6 +5,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/user/action.user";
 import { useNavigate } from "react-router-dom";
+import { getProducts } from "../../redux/product/action.product";
 const LoginForm = () => {
   const [email, setEmail] = useState();
 
@@ -13,7 +14,8 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const handleLogin = () => {
     dispatch(login(email, password));
-    navigate('/')
+    dispatch(getProducts(JSON.parse(localStorage.getItem("token") || null)))
+    navigate('/');
   };
 
   useEffect(()=>{

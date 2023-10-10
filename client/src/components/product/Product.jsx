@@ -9,10 +9,14 @@ const Product = () => {
     useEffect(()=>{
         const token = JSON.parse(localStorage.getItem("token") || null);
         dispatch(getProducts(token));
+
     },[dispatch]);
 
   return (
     <>
+    {
+
+    }
     </>
   )
 }
