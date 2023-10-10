@@ -8,7 +8,7 @@ import {Provider} from "react-redux";
 import {store} from "./redux/store"
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-export const BASE_URL = 'http://localhost:3000/api';
+export const BASE_URL = 'http://localhost:8070/api';
 
 root.render(
   <React.StrictMode>

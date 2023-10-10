@@ -4,7 +4,7 @@ import LoginForm from '../../components/login/LoginForm';
 const LoginPage = () => {
   return (
     <>
-    <h1>Please Login Through this page.</h1>
+    <h2 style={{color : "#F0F01A"}}>Please Login here !</h2>
     <LoginForm/>
     </>
   )

@@ -1,12 +1,13 @@
 import AllRoute from './AllRoutes/AllRoute';
 import './App.css';
-import {DatePicker} from "antd"
+import Navbar from './components/navbar/Navbar';
+import Product from './components/product/Product';
 function App() {
   return (
     <div className="App">
-      <h1>Hello bro !!!!!!</h1>
-      <DatePicker/>
+      <Navbar/>
       <AllRoute/>
+      <Product/>
     </div>
   );
 }

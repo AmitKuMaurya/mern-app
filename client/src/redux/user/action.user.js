@@ -13,10 +13,10 @@ export const login = (email, password) => async (dispatch) => {
       `${BASE_URL}/auth/login`,
       { email, password },
       config
-    );
+      );
+      console.log('data: ', data);
     saveData("token", data.token);
-    // saveData("user-Detail",data.user);
-    dispatch({ type: types.USER_LOGIN_SUCCESS, payload: data.user });
+    dispatch({ type: types.USER_LOGIN_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
       type: types.USER_LOGIN_FAILED,
@@ -29,10 +29,10 @@ export const register = (userData) => async (dispatch) => {
   try {
     dispatch({ type: types.USER_REGISTER_LOADING });
 
-    const config = { headers: { "Content-Type": "multipart/form-data" } };
+    const config = { headers: { "Content-Type": "application/json" } };
 
     const { data } = await axios.post(`${BASE_URL}/auth/register`, userData, config);
-    dispatch({ type: types.USER_REGISTER_SUCCESS, payload: data.user });
+    dispatch({ type: types.USER_REGISTER_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
       type: types.USER_REGISTER_FAILED,

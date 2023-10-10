@@ -1,9 +1,9 @@
 import React from 'react'
-import SignupForm from "../../components/signup/signupForm"
+import SignupForm from "../../components/signup/SignupForm";
 const SignupPage = () => {
   return (
     <>
-    <h1>You have to register here.</h1>
+    <h2>You have to register here.</h2>
     <SignupForm/>
     </>
   )
