@@ -36,11 +36,33 @@ export const createProduct = async (req: Request, res: Response) => {
 
 export const listProducts = async (req: Request, res: Response) => {
   try {
-    const { user } = req;
-    console.log('user: ', user);
+    let query = ProductModel.find();
 
-    const list = await ProductModel.find({ userId: user });
-    res.status(200).send(list);
+    // Sort by name in ascending or descending order
+    if (req.query.sort === 'asc') {
+      query = query.sort('productName');
+    } else if (req.query.sort === 'desc') {
+      query = query.sort('-productName');
+    }
+
+    // Search by product name
+    if (req.query.search) {
+      query = query.regex('productName', new RegExp(req.query.search as string, 'i'));
+    }
+
+    // Pagination
+    const page = parseInt(req.query?.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const skip = (page - 1) * limit;
+
+    query = query.skip(skip).limit(limit);
+
+    const products = await query.exec();
+
+    res.status(200).json({
+      msg : "products Fetched !",
+      products : products
+    });
   } catch (err) {
     res.status(501).send({ err: "Internal Server Error" });
   }

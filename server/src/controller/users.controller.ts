@@ -114,9 +114,9 @@ export const userChangePassword = async (req: Request, res: Response) => {
     req.body;
 
 
-  const userL = await UserModel.findOne({ _id: user }).select("+password");
+  const userLogged = await UserModel.findOne({ _id: user }).select("+password");
 
-  if (!userL) return res.status(404).send({msg : "User Doesn't exist !"});
+  if (!userLogged) return res.status(404).send({msg : "User Doesn't exist !"});
 
   if (newPassword !== confirmNewPassword) {
     return res
@@ -124,16 +124,16 @@ export const userChangePassword = async (req: Request, res: Response) => {
       .send({ error: "password and confirm password mismatched !" });
   }
 
-  const comparePswd = await bcrypt.compare(password, userL?.password);
+  const comparePswd = await bcrypt.compare(password, userLogged?.password);
 
   if (!comparePswd) {
     return res.status(401).send({ error: "Your credentials are wrong !" });
   }
 
   const hashedNewPswd = await bcrypt.hash(newPassword, 10);
-  userL.password = hashedNewPswd;
-  await userL.save();
-  
+  userLogged.password = hashedNewPswd;
+  await userLogged.save();
+
   res.status(201).send({
     isSuccess: true,
     msg: "Creds updated successfully !",
