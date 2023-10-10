@@ -8,7 +8,7 @@ To run in your setup first, clone the repository
 
 ### `npm install`
 
-### `npm run start`
+### `npm run dev`
 
 
 # Getting Started with React App [use Node 18 version]
