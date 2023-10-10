@@ -4,6 +4,6 @@ import { Authentication } from "../middleware/auth.middleware";
 export const productRouter   = Router();
 
 productRouter.post('/create',Authentication ,createProduct);
-productRouter.get('/list' , listProducts);
+productRouter.get('/list' , Authentication,listProducts);
 productRouter.patch('/update/:id',Authentication ,updateProduct);
 productRouter.delete('/delete/:id',Authentication ,deleteProduct);
